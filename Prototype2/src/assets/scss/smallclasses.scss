@@ -1,0 +1,90 @@
+.leidlefont {
+    font-family:"Thirsty Script Regular","Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+}
+
+.textcenter {
+    text-align:center;
+}
+
+.hoverable {
+    &:hover{
+        filter:brightness(95%);
+    }
+}
+
+.pageform {
+    width: 60%;
+    padding-top:20px;
+    margin:auto;
+    // border-left:2px gray solid;
+    // border-right:2px gray solid;
+}
+
+.margin-sides-5 {
+    margin-left:5em;
+    margin-right:5em;
+}
+
+.blockcenter {
+    margin-top:50%;
+    display: block;
+}
+
+.post-content {
+    word-wrap:normal;
+    display:block;
+    width: 80%;
+}
+
+.login-block {
+    width: 30%;
+    height: 50%;
+    background-color:lighten(gray, 45%);
+    padding: 1%;
+    margin: auto;
+    z-index: 0;
+    @extend .textcenter;
+    // padding: 10%;
+    input {
+        // margin:4%;
+        z-index: 1;
+    }
+}
+
+/* A responsive Top Bar menu with a centered logo 
+  http://foundation.zurb.com/building-blocks/blocks/topbar-center-logo.html
+*/
+
+// $topbar-center-logo-bg: #2c3840;
+$topbar-center-logo-bg: $primary-color;
+
+.topbar-center-logo {
+  background: $topbar-center-logo-bg;
+
+  .menu {
+    background: $topbar-center-logo-bg;
+
+    a {
+      color: $white;
+    }
+  }
+}
+
+.topbar-center-logo .top-bar-center {
+  flex: 1 0 auto;
+
+  @include breakpoint(small only) {
+    display: none;
+  }
+}
+
+.topbar-center-logo-mobile {
+  background: $topbar-center-logo-bg;
+
+  .menu-icon {
+    vertical-align: text-top;
+  }
+}
+
+
+
