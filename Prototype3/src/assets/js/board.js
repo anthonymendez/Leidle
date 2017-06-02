@@ -29,7 +29,7 @@ function boardFunctions(){
             $(".create").toggleClass("createtoggle");
         });
     });
-    //
+    //Reveals the signup and login menus.
     $("#signup-menu").click(function(){
         $(".signup-menu").slideToggle(function(){
             $(".signup-menu").toggleClass("flex");
@@ -206,8 +206,10 @@ function boardFunctions(){
             //We are not picking which box will have images
             pickingimages = false;
         }
+        //Else if we're on the second page, save the values from each input box into the textboxes array.
+        //Then made the input and textareas readonly and fadeout the next button and fadein the submit picket button
         else if(submitPage == 1){
-
+            //Saving all the values from the input boxes into the textboxes array.
             if(selectedimages[0]){
                 textboxes[0] = $("#1 input").value;
             }else{
@@ -261,19 +263,26 @@ function boardFunctions(){
             }else{
                 textboxes[8] = $("#9 textarea").value;
             }
-
+            //Setting the input and textareas to disabled and readonlys
             $(".gridrow input").prop("readonly",true);
             $(".gridrow textarea").prop("readonly",true);
             $(".gridrow input").prop("disabled",true);
             $(".gridrow textarea").prop("disabled",true);
+            //Gets rid of the next button because we're on the last page.
             $("#next").fadeOut("fast");
+            //Creates the Submit button so the user can submit their picket.
             $(".submit").fadeIn("fast");
+            //Applies the display:flex style design to the submit button
             $(".submit").css("display","flex");
+            //Increment the current page we're on by one.
             submitPage++;
         }
     })
+    //Goes back through each page of the "Create a Picket" system with different functions for each appropriate page.
     $("#back").click(function(){
+        //If we're on the second page, hide all of the inputs and textareas we have, and reappear the image selection screen.
         if(submitPage == 1){
+                //Hiding all the input boxes
                 if(selectedimages[0]){
                     $("#1 input").hide();
                 }else{
@@ -327,7 +336,7 @@ function boardFunctions(){
                 }else{
                     $("#9 textarea").hide();
                 }
-
+                //Showing all the picksquares elements (so users can pick their image squares again).
                 $("#1 .picksquares").show();
                 $("#2 .picksquares").show();
                 $("#3 .picksquares").show();
@@ -337,24 +346,31 @@ function boardFunctions(){
                 $("#7 .picksquares").show();
                 $("#8 .picksquares").show();
                 $("#9 .picksquares").show();
-                
+                //Hides the back button because we're on the first page.
                 $("#back").hide();
-
-            submitPage--;
-            pickingimages = true;
+                //Decrement our current page by one.
+                submitPage--;
+                //We're back to picking images so this is true
+                pickingimages = true;
         }
+        //If we're on the 3rd page
         else if(submitPage == 2){
-            
+            //Disable readonly and disabled on each input box so the user can edit their text
             $(".gridrow input").prop("readonly",false);
             $(".gridrow textarea").prop("readonly",false);
             $(".gridrow input").prop("disabled",false);
             $(".gridrow textarea").prop("disabled",false);
+            //Show the next button because we're not on the last page anymore.
             $("#next").fadeIn("fast");
+            //Hide the submit button because the user is still editing their picket.
             $(".submit").fadeOut("fast");
+            //Decrement our curring page by one.
             submitPage--;
         }
     })
-
+    //Submits the picket.
+    //We're gonna have to go through some AJAX stuff, need to look into it.
     $("#submitpicket").click(function(){
+        //TODO
     });
 }

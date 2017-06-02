@@ -1,2 +1,2 @@
 $(document).foundation();
-$(document).ready(boardFunctions())
+$(document).ready(boardFunctions());
