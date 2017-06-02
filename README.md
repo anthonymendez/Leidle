@@ -1,4 +1,4 @@
 # Leidle
-Current Prototype Folder:
 
-	Prototype 3
+Current Prototype Folder:
+	<b>Prototype 3</b>
