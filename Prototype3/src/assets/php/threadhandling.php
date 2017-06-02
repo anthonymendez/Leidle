@@ -115,8 +115,15 @@
             $serializedData = serialize($values);
             $threadID = getMostRecentThreadId()+1;
             $session_username = $_SESSION['login_user'];
+            $subject = $_POST["subject"];
             $newthreadquery = "INSERT INTO p3_content.threads VALUES (?,?,?,?)";
+            $sqli = mysqli_prepare($connection,$newthreadquery);
+            mysqli_stmt_bind_param($sqli,getMostRecentThreadId()+1,$subject,NOW());
+            mysqli_stmt_execute($sqli);
             $newpostquery = "INSERT INTO p3_content.threads VALUES (?,?,?,?,?,?)";
+            $sqli = mysqli_prepare($connection,$newpostquery);
+            mysqli_stmt_bind_param($sqli);
+            mysqli_stmt_execute($sqli);
             //TODO FINISH
         }
     }

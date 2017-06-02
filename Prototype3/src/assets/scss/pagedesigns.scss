@@ -184,6 +184,10 @@
                     display:flex;
                     flex-direction: row;
                     flex-wrap: wrap;
+                    .subject {
+                            width:25%;
+                            margin-left:0.5em;
+                    }
                 }
 
                 .grid {

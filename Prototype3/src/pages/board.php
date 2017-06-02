@@ -51,8 +51,9 @@
         <div class = "create">
             <form id = "picketform" method = "post">
                 <div class = "options">
-                    <input type = "checkbox" id = "showuser" /><label for ="showuser">Show Username</label>
-                    <input type = "checkbox" id = "showflair" /><label for ="showflair">Show Flair</label>
+                    <input type = "checkbox" id = "showuser" name = "showuser" class = "" /><label for ="showuser">Show Username</label>
+                    <input type = "checkbox" id = "showflair" name = "showflair" class = "" /><label for ="showflair">Show Flair</label>
+                    <label for ="subjectline"> Subject: </label><input type = "text" class = "subject" id = "subjectline" name = "subject" />
                 </div>
                 <div class = "grid">
                     <div class = "gridrow">
