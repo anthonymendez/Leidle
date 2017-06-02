@@ -86,15 +86,10 @@ function boardFunctions(){
             selectedimages = hasPicked;
 
             //Hide all of the Page 1 elements
-            $("#1 div").hide();
-            $("#2 div").hide();
-            $("#3 div").hide();
-            $("#4 div").hide();
-            $("#5 div").hide();
-            $("#6 div").hide();
-            $("#7 div").hide();
-            $("#8 div").hide();
-            $("#9 div").hide();
+            for(var i = 0; i < 9; i++){
+                var dom = sprintf("#%i div",i+1);
+                $(dom).hide();
+            }
 
             //If we have not appended inputs, textareas, or need to reappend...
             if(!appended){
@@ -112,91 +107,30 @@ function boardFunctions(){
                     }
                 }
                 //Delete all the input/textarea to make sure there aren't any duplicates
-                $("#1 input").remove();
-                $("#1 textarea").remove();
-                $("#2 input").remove();
-                $("#2 textarea").remove();
-                $("#3 input").remove();
-                $("#3 textarea").remove();
-                $("#4 input").remove();
-                $("#4 textarea").remove();
-                $("#5 input").remove();
-                $("#5 textarea").remove();
-                $("#6 input").remove();
-                $("#6 textarea").remove();
-                $("#7 input").remove();
-                $("#7 textarea").remove();
-                $("#8 input").remove();
-                $("#8 textarea").remove();
-                $("#9 input").remove();
-                $("#9 textarea").remove();
+                for(var i = 0; i < 9; i++){
+                    var inputdom = sprintf("#%i input", i+1);
+                    var textareadom = sprintf("#%i textarea", i+1);
+                    $(inputdom).remove();
+                    $(textareadom).remove();
+                }
 
                 //Appends all the DOM as a child to each square
-                $("#1").append(input[0]);
-                $("#2").append(input[1]);
-                $("#3").append(input[2]);
-                $("#4").append(input[3]);
-                $("#5").append(input[4]);
-                $("#6").append(input[5]);
-                $("#7").append(input[6]);
-                $("#8").append(input[7]);
-                $("#9").append(input[8]);
+                for(var i = 0; i < 9; i++){
+                    var dom = sprintf("#%i",i+1);
+                    $(dom).append(input[i]);
+                }
 
                 appended = true;
             //Else, we just show the appropriate input and textareas.
             }else{
-                if(selectedimages[0]){
-                    $("#1 input").show();
-                }else{
-                    $("#1 textarea").show();
-                }
-        
-                if(selectedimages[1]){
-                    $("#2 input").show();
-                }else{
-                    $("#2 textarea").show();
-                }
-
-                if(selectedimages[2]){
-                    $("#3 input").show();
-                }else{
-                    $("#3 textarea").show();
-                }
-
-                if(selectedimages[3]){
-                    $("#4 input").show();
-                }else{
-                    $("#4 textarea").show();
-                }
-
-                if(selectedimages[4]){
-                    $("#5 input").show();
-                }else{
-                    $("#5 textarea").show();
-                }
-
-                if(selectedimages[5]){
-                    $("#6 input").show();
-                }else{
-                    $("#6 textarea").show();
-                }
-
-                if(selectedimages[6]){
-                    $("#7 input").show();
-                }else{
-                    $("#7 textarea").show();
-                }
-
-                if(selectedimages[7]){
-                    $("#8 input").show();
-                }else{
-                    $("#8 textarea").show();
-                }
-
-                if(selectedimages[8]){
-                    $("#9 input").show();
-                }else{
-                    $("#9 textarea").show();
+                for(var i = 0; i < 9;i++){
+                    var dom = "";
+                    if(selectedimages[i]){
+                        dom = sprintf("#%i input",i+1);
+                    }else{
+                        dom = sprintf("#%i textarea",i+1);
+                    }
+                    $(dom).show();
                 }
             }
             //Show the back button
@@ -210,58 +144,15 @@ function boardFunctions(){
         //Then made the input and textareas readonly and fadeout the next button and fadein the submit picket button
         else if(submitPage == 1){
             //Saving all the values from the input boxes into the textboxes array.
-            if(selectedimages[0]){
-                textboxes[0] = $("#1 input").value;
-            }else{
-                textboxes[0] = $("#1 textarea").value;
-            }
-            
-            if(selectedimages[1]){
-                textboxes[1] = $("#2 input").value;
-            }else{
-                textboxes[1] = $("#2 textarea").value;
-            }
 
-            if(selectedimages[2]){
-                textboxes[2] = $("#3 input").value;
-            }else{
-                textboxes[2] = $("#3 textarea").value;
-            }
-
-            if(selectedimages[3]){
-                textboxes[3] = $("#4 input").value;
-            }else{
-                textboxes[3] = $("#4 textarea").value;
-            }
-
-            if(selectedimages[4]){
-                textboxes[4] = $("#5 input").value;
-            }else{
-                textboxes[4] = $("#5 textarea").value;
-            }
-
-            if(selectedimages[5]){
-                textboxes[5] = $("#6 input").value;
-            }else{
-                textboxes[5] = $("#6 textarea").value;
-            }
-
-            if(selectedimages[6]){
-                textboxes[6] = $("#7 input").value;
-            }else{
-                textboxes[6] = $("#7 textarea").value;
-            }
-
-            if(selectedimages[7]){
-                textboxes[7] = $("#8 input").value;
-            }else{
-                textboxes[7] = $("#8 textarea").value;
-            }
-
-            if(selectedimages[8]){
-                textboxes[8] = $("#9 input").value;
-            }else{
-                textboxes[8] = $("#9 textarea").value;
+            for(var i = 0; i < 9; i++){
+                var dom = "";
+                if(selectedimages[i]){
+                    dom = sprintf("#%i input",i+1);
+                }else{
+                    dom = sprintf("#%i textarea",i+1);
+                }
+                textboxes[i] = $(dom).value;
             }
             //Setting the input and textareas to disabled and readonlys
             $(".gridrow input").prop("readonly",true);
@@ -283,69 +174,21 @@ function boardFunctions(){
         //If we're on the second page, hide all of the inputs and textareas we have, and reappear the image selection screen.
         if(submitPage == 1){
                 //Hiding all the input boxes
-                if(selectedimages[0]){
-                    $("#1 input").hide();
-                }else{
-                    $("#1 textarea").hide();
-                }
-        
-                if(selectedimages[1]){
-                    $("#2 input").hide();
-                }else{
-                    $("#2 textarea").hide();
-                }
 
-                if(selectedimages[2]){
-                    $("#3 input").hide();
-                }else{
-                    $("#3 textarea").hide();
-                }
-
-                if(selectedimages[3]){
-                    $("#4 input").hide();
-                }else{
-                    $("#4 textarea").hide();
-                }
-
-                if(selectedimages[4]){
-                    $("#5 input").hide();
-                }else{
-                    $("#5 textarea").hide();
-                }
-
-                if(selectedimages[5]){
-                    $("#6 input").hide();
-                }else{
-                    $("#6 textarea").hide();
-                }
-
-                if(selectedimages[6]){
-                    $("#7 input").hide();
-                }else{
-                    $("#7 textarea").hide();
-                }
-
-                if(selectedimages[7]){
-                    $("#8 input").hide();
-                }else{
-                    $("#8 textarea").hide();
-                }
-
-                if(selectedimages[8]){
-                    $("#9 input").hide();
-                }else{
-                    $("#9 textarea").hide();
+                for(var i = 0; i < 9; i++){
+                    var dom = "";
+                    if(selectedimages[i]){
+                        dom = sprintf("#%i input",i+1);
+                    }else{
+                        dom = sprintf("#%i textarea",i+1);
+                    }
+                    $(dom).hide();
                 }
                 //Showing all the picksquares elements (so users can pick their image squares again).
-                $("#1 .picksquares").show();
-                $("#2 .picksquares").show();
-                $("#3 .picksquares").show();
-                $("#4 .picksquares").show();
-                $("#5 .picksquares").show();
-                $("#6 .picksquares").show();
-                $("#7 .picksquares").show();
-                $("#8 .picksquares").show();
-                $("#9 .picksquares").show();
+                for(var i = 0; i < 9; i++){
+                    var dom = sprintf("#%i .picksquares",i+1);
+                    $(dom).show();
+                }
                 //Hides the back button because we're on the first page.
                 $("#back").hide();
                 //Decrement our current page by one.
