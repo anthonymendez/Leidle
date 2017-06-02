@@ -111,9 +111,12 @@
     function submitPicket(){
         if(isset($_POST["submitpicket"])){
             $connection = mysqli_connect($GLOBALS["servername"],$GLOBALS['db_submitpicket_username'],$GLOBALS['db_submitpicket_password']);
+            $Data = array($_POST["#1"],$_POST["#2"],$_POST["#3"],$_POST["#4"],$_POST["#5"],$_POST["#6"],$_POST["#7"],$_POST["#8"],$_POST["#9"]);
+            $serializedData = serialize($values);
             $threadID = getMostRecentThreadId()+1;
             $session_username = $_SESSION['login_user'];
-            $insertquery = "";
+            $newthreadquery = "INSERT INTO p3_content.threads VALUES (?,?,?,?)";
+            $newpostquery = "INSERT INTO p3_content.threads VALUES (?,?,?,?,?,?)";
             //TODO FINISH
         }
     }

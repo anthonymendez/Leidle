@@ -101,9 +101,9 @@ function boardFunctions(){
                 //If it's false, then we'll just place a regular textarea DOM.
                 for(var i = 0; i <= 8; i++){
                     if(selectedimages[i]){
-                        input[i] = "<input type = \"text\" placeholder = \"Insert Image URL here!\" />";
+                        input[i] = sprintf("<input name = \"#%i\" type = \"text\" placeholder = \"Insert Image URL here!\" />",i+1);
                     }else{
-                        input[i] = "<textarea placeholder = \"Text here!...\"></textarea>";
+                        input[i] = sprintf("<textarea name = \"#%i\" placeholder = \"Text here!...\"></textarea>",i+1);
                     }
                 }
                 //Delete all the input/textarea to make sure there aren't any duplicates
