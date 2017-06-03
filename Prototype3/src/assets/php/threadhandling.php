@@ -112,19 +112,42 @@
         if(isset($_POST["submitpicket"])){
             $connection = mysqli_connect($GLOBALS["servername"],$GLOBALS['db_submitpicket_username'],$GLOBALS['db_submitpicket_password']);
             $Data = array($_POST["#1"],$_POST["#2"],$_POST["#3"],$_POST["#4"],$_POST["#5"],$_POST["#6"],$_POST["#7"],$_POST["#8"],$_POST["#9"]);
-            $serializedData = serialize($values);
+            $serializedPicket = serialize($values);
             $threadID = getMostRecentThreadId()+1;
             $session_username = $_SESSION['login_user'];
             $subject = $_POST["subject"];
+            $timecreated = gmdate("Y-m-d H:i:s", time());
+            $timedelete = $timecreated;
+            $timedelete->modify('+1 day');
+            $postid = getMostRecentPostId()+1;
+            $threadpostid = getMostRecentPostIdInThread($threadID);
+            try{
+            //ThreadID,subject,timeposted,deletetime
             $newthreadquery = "INSERT INTO p3_content.threads VALUES (?,?,?,?)";
             $sqli = mysqli_prepare($connection,$newthreadquery);
-            mysqli_stmt_bind_param($sqli,getMostRecentThreadId()+1,$subject,NOW());
+            mysqli_stmt_bind_param($sqli,$threadID,$subject,$timecreated,$timedelete);
             mysqli_stmt_execute($sqli);
-            $newpostquery = "INSERT INTO p3_content.threads VALUES (?,?,?,?,?,?)";
+            //Picket,username,userid,threadid,postid,threadpostid
+            $newpostquery = "INSERT INTO p3_content.posts VALUES (?,?,?,?,?,?)";
             $sqli = mysqli_prepare($connection,$newpostquery);
-            mysqli_stmt_bind_param($sqli);
+            mysqli_stmt_bind_param($sqli,$serializedPicket,$session_username,getUserID($session_username,$threadID),$threadID,$postid,$threadpostid);
             mysqli_stmt_execute($sqli);
-            //TODO FINISH
+            mysqli_close($connection);
+            // header("Location:".htmlspecialchars("board".urlencode(STUFFHERE).".php"));
+            }catch(error $e){
+                Echo "Ruh roh raggy! Something went wrong!";
+            }
+            exit;
         }
+    }
+    //Retrieve the pickets in the database
+    function getPickets(){
+        $connection = mysqli_connect($GLOBALS["servername"],$GLOBALS['db_getcontent_username'],$GLOBALS['db_getcontent_password']);
+        $getquery = "SELECT * FROM p3_content.threads ORDER BY timeposted DESC LIMIT 50";
+        //TODO FINISH
+    }
+    //Submit a regular post responding to a comment
+    function submitPost(){
+        //TODO FINISH
     }
 ?>
