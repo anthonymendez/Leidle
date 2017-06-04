@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link rel="stylesheet" href="assets/css/app.css">
-    <?php include "assets/php/session.php";signup();?>
+    <?php include "assets/php/session.php";?>
     <!--<title>Foundation for Sites</title>
     
   </head>
@@ -135,6 +135,7 @@
     <?php 
             submitPicket();
     ?>
+    <?php signup(); ?>
     <script src="assets/js/app.js"></script>
     <script type = "text/javascript" src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
     <!--Change this and-->

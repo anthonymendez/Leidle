@@ -61,9 +61,9 @@
 
             $connection = mysqli_connect($GLOBALS["servername"],$GLOBALS["db_signup_username"],$GLOBALS["db_signup_password"]);
 
-            $signup_email = $POST[$GLOBALS['form_signup_email']];
-            $signup_username = $POST[$GLOBALS['form_signup_username']];
-            $signup_password = $POST[$GLOBALS['form_signup_password']];
+            $signup_email = $_POST[$GLOBALS['form_signup_email']];
+            $signup_username = $_POST[$GLOBALS['form_signup_username']];
+            $signup_password = $_POST[$GLOBALS['form_signup_password']];
 
             $signup_email = stripslashes($signup_email);
             $signup_username = stripslashes($signup_username);
@@ -104,12 +104,14 @@
             //username, experience (points), level, usertype 
             $userinfo_query = "INSERT INTO p3_data.userinfo VALUES (?,?,?,?)";
 
+            $zero = 0;
+            $one = 1;
+            $normie = "normie";
+            $id = getAmountOfUsers()+1;
+
             try{
-                $zero = 0;
-                $one = 1;
-                $normie = "normie";
+                
                 $sqli = mysqli_prepare($connection, $signup_query);
-                $id = getAmountOfUsers()+1;
                 mysqli_stmt_bind_param($sqli,'issssii',$id,$signup_email,$signup_username,$signup_password,$signup_email,$zero,$zero);
                 mysqli_stmt_execute($sqli);
                 $sqli = mysqli_prepare($connection, $userinfo_query);
@@ -130,11 +132,14 @@
         $connection = mysqli_connect($GLOBALS["servername"],$GLOBALS["db_login_username"],$GLOBALS["db_login_password"]);
         $id_query = "SELECT MAX(id) FROM p3_registration.users";
         $id_result = mysqli_query($connection,$id_query);
-        if(mysqli_num_rows($id_result) === 0){
-            return 0;
+        $maxidrow = mysqli_num_rows($id_result);
+        if(isset($id_result) && isset($maxidrow) && $maxidrow > 0){
+            $fetch = mysqli_fetch_assoc($id_result);
+            mysqli_close($connection);
+            return $fetch['id'];
         }else{
-            $id_fetch = mysqli_fetch_assoc($id_result);
-            return $id_fetch["id"];
+            mysqli_close($connection);
+            return 0;
         }
     }
     //Get user level
