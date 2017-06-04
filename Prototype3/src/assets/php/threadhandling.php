@@ -109,31 +109,31 @@
     }
     //Submit the picket the user entered in the database
     function submitPicket(){
-        if(isset($_POST["submitpicket"])){
+        if(isset($_POST["submitpicket"]) && isset($_SESSION['login_user'])){
             $connection = mysqli_connect($GLOBALS["servername"],$GLOBALS['db_submitpicket_username'],$GLOBALS['db_submitpicket_password']);
             $Data = array($_POST["#1"],$_POST["#2"],$_POST["#3"],$_POST["#4"],$_POST["#5"],$_POST["#6"],$_POST["#7"],$_POST["#8"],$_POST["#9"]);
-            $serializedPicket = serialize($values);
+            $serializedPicket = serialize($Data);
             $threadID = getMostRecentThreadId()+1;
             $session_username = $_SESSION['login_user'];
             $subject = $_POST["subject"];
             $timecreated = gmdate("Y-m-d H:i:s", time());
             $timedelete = $timecreated;
             $timedelete->modify('+1 day');
-            $postid = getMostRecentPostId()+1;
-            $threadpostid = getMostRecentPostIdInThread($threadID);
+            $postid = getMostRecentPostId();
+            $threadpostid = getMostRecentPostIdInThread($threadID)+1;
             try{
-            //ThreadID,subject,timeposted,deletetime
-            $newthreadquery = "INSERT INTO p3_content.threads VALUES (?,?,?,?)";
-            $sqli = mysqli_prepare($connection,$newthreadquery);
-            mysqli_stmt_bind_param($sqli,$threadID,$subject,$timecreated,$timedelete);
-            mysqli_stmt_execute($sqli);
-            //Picket,username,userid,threadid,postid,threadpostid
-            $newpostquery = "INSERT INTO p3_content.posts VALUES (?,?,?,?,?,?)";
-            $sqli = mysqli_prepare($connection,$newpostquery);
-            mysqli_stmt_bind_param($sqli,$serializedPicket,$session_username,getUserID($session_username,$threadID),$threadID,$postid,$threadpostid);
-            mysqli_stmt_execute($sqli);
-            mysqli_close($connection);
-            // header("Location:".htmlspecialchars("board".urlencode(STUFFHERE).".php"));
+                //ThreadID,subject,timeposted,deletetime
+                $newthreadquery = "INSERT INTO p3_content.threads VALUES (?,?,?,?)";
+                $sqli = mysqli_prepare($connection,$newthreadquery);
+                mysqli_stmt_bind_param($sqli,$threadID,$subject,$timecreated,$timedelete);
+                mysqli_stmt_execute($sqli);
+                //Picket,username,userid,threadid,postid,threadpostid, timeposted
+                $newpostquery = "INSERT INTO p3_content.posts VALUES (?,?,?,?,?,?,?)";
+                $sqli = mysqli_prepare($connection,$newpostquery);
+                mysqli_stmt_bind_param($sqli,$serializedPicket,$session_username,getUserID($session_username,$threadID),$threadID,$postid,$threadpostid,$timecreated);
+                mysqli_stmt_execute($sqli);
+                mysqli_close($connection);
+                // header("Location:".htmlspecialchars("board".urlencode(STUFFHERE).".php"));
             }catch(error $e){
                 Echo "Ruh roh raggy! Something went wrong!";
             }
@@ -143,7 +143,7 @@
     //Retrieve the pickets in the database
     function getPickets(){
         $connection = mysqli_connect($GLOBALS["servername"],$GLOBALS['db_getcontent_username'],$GLOBALS['db_getcontent_password']);
-        $getquery = "SELECT * FROM p3_content.threads ORDER BY timeposted DESC LIMIT 50";
+        $getquery = "SELECT * FROM p3_content.posts ORDER BY timeposted DESC WHERE threadpostid LIMIT 50";
         //TODO FINISH
     }
     //Submit a regular post responding to a comment

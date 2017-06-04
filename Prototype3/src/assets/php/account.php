@@ -56,7 +56,7 @@
     }
     //Sign Up Function
     function signup(){
-        if(isset($POST[$GLOBALS['form_signup_submit']])){
+        if(isset($_POST[$GLOBALS['form_signup_submit']])){
             $error = "";
 
             $connection = mysqli_connect($GLOBALS["servername"],$GLOBALS["db_signup_username"],$GLOBALS["db_signup_password"]);
@@ -83,7 +83,7 @@
 
             $check_email_query = "SELECT email FROM p3_registration.users WHERE email = '$signup_email'";
 
-            $check_username_query = "SELECT username FROM prototype2.users WHERE username = '$signup_username'";
+            $check_username_query = "SELECT username FROM p3_registration.users WHERE username = '$signup_username'";
 
             $check_email_result = mysqli_query($connection,$check_email_query);
             $check_username_result = mysqli_query($connection,$check_username_query);
@@ -110,13 +110,14 @@
                 $normie = "normie";
                 $sqli = mysqli_prepare($connection, $signup_query);
                 $id = getAmountOfUsers()+1;
-                mysqli_stmt_bind_param($sqli,'issssii',$id,$signup_email,$signup_username,$signup_password,$zero,$zero,$zero);
+                mysqli_stmt_bind_param($sqli,'issssii',$id,$signup_email,$signup_username,$signup_password,$signup_email,$zero,$zero);
                 mysqli_stmt_execute($sqli);
                 $sqli = mysqli_prepare($connection, $userinfo_query);
                 mysqli_stmt_bind_param($sqli,'siis',$signup_username,$zero,$one,$normie);
                 mysqli_stmt_execute($sqli);
             }catch(Exception $e){
                 $error = "<h5 class = ''>Account creation failed!</h5><hr />";
+                echo $error;
                 die($error.$e);
             }
             mysqli_close($connection);

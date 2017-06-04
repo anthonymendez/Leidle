@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link rel="stylesheet" href="assets/css/app.css">
-    <?php include "assets/php/session.php"; ?>
+    <?php include "assets/php/session.php";signup();?>
     <!--<title>Foundation for Sites</title>
     
   </head>
@@ -15,6 +15,39 @@
 
     <title>Leidle</title>
     </head>
+    <div class = "signup-menu">
+        <div class = "">
+            <div class = "toprow">
+                <div class = "button secondary large exit" id = "signup-menu-exit">
+                    X
+                </div>
+            </div>
+            <div class = "middle">
+                <h3>Sign up!</h3>
+                <h5>Enter your information to get started!</h5>
+                <form method = "POST">
+                    <label for = "Susername">Username</label><input type = "text" name = "Susername" />
+                    <label for = "Semail">Email</label><input type = "text" name = "Semail" />
+                    <label for = "Spassword">Password</label><input type = "password" name = "Spassword" />
+                    <input type = "submit" name = "Ssubmit" value = "Sign up" class = "button large Ssubmit" />
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class = "login-menu">
+        <div class = "">
+            <div class = "toprow">
+                <div class = "button secondary large exit" id = "login-menu-exit">
+                    X
+                </div>
+            </div>
+            <div class = "middle">
+                <form method = "POST">
+                    
+                </form>
+            </div>
+        </div>
+    </div>
     <body class = "homepage">
     
         <div class = "sideCol">
@@ -23,17 +56,17 @@
         <div class = "mainCol">
             <div class = "menubar">
                 <div class = "left">
-                    <a href = "">FAQ</a>
+                    <button class = "button secondary large " id = "">FAQ</button>
                     <br />
-                    <a href = "">Rules</a>
+                    <button class = "button secondary large " id = "">Rules</button>
                 </div>
                 <div class = "center">
                     <h2> Leidle </h2>
                 </div>
                 <div class = "right">
-                    <a href = "">Sign Up</a>
+                    <button class = "button secondary large " id = "signup-menu">Sign Up</button>
                     <br />
-                    <a href = "">Login</a>
+                    <button class = "button secondary large " id = "login-menu">Login</button>
                 </div>
             </div>
             <div class = "boardlist">

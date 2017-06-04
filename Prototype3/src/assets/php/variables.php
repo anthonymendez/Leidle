@@ -9,18 +9,18 @@
     
     //Usernames to connect to the database
     //Each user has seperate privileges
-    $db_signup_username = ""; 
-    $db_signup_password = "";
-    $db_login_username = "";
-    $db_login_password = "";
-    $db_logout_username = "";
-    $db_logout_password = "";
-    $db_getcontent_username = "";
-    $db_getcontent_password = "";
-    $db_getdata_username = "";
-    $db_getdata_password = "";
-    $db_submitpicket_username = "";
-    $db_submitpicket_password = "";
+    $db_signup_username = "registeruser"; 
+    $db_signup_password = "lookatmeiamregisteringausersuperimportant";
+    $db_login_username = "getuser";
+    $db_login_password = "iamgrabbinguserstuffimeanlookatthisamazingpowerihavePOWEEEEEEEERRRRRRR";
+    // $db_logout_username = "";
+    // $db_logout_password = "";
+    $db_getcontent_username = "getcontent";
+    $db_getcontent_password = "iamgrabbingthecontentwoo";
+    $db_getdata_username = "getdata";
+    $db_getdata_password = "grabbingdataholyshitthisisamazinghowdowehavethispower";
+    $db_submitpicket_username = "submitpicket";
+    $db_submitpicket_password = "superamazingholygreatpicketman";
 
     //Names of Forms used throughout the site
     //Example <input type = "text" name = "Susername"> corresponds to the input box of someone's usename

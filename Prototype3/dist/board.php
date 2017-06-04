@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link rel="stylesheet" href="assets/css/app.css">
-    <?php include "assets/php/session.php"; ?>
+    <?php include "assets/php/session.php";signup();?>
     <!--<title>Foundation for Sites</title>
     
   </head>
@@ -24,19 +24,23 @@
             </div>
             <div class = "middle">
                 <form method = "POST">
-    
+                    <input type = "text" name = "Susername" />
                 </form>
             </div>
         </div>
     </div>
     <div class = "login-menu">
-        <div class = "callout">
-            <div class = "button large" id = "login-menu-exit">
-                X
+        <div class = "">
+            <div class = "toprow">
+                <div class = "button secondary large exit" id = "login-menu-exit">
+                    X
+                </div>
             </div>
-            <form>
-                
-            </form>
+            <div class = "middle">
+                <form method = "POST">
+                    
+                </form>
+            </div>
         </div>
     </div>
     <body class = "board">
@@ -128,6 +132,9 @@
             </div>
         </div>
     </div>
+    <?php 
+            submitPicket();
+    ?>
     <script src="assets/js/app.js"></script>
     <script type = "text/javascript" src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
     <!--Change this and-->

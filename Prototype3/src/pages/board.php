@@ -9,19 +9,23 @@
         </div>
         <div class = "middle">
             <form method = "POST">
-
+                <input type = "text" name = "Susername" />
             </form>
         </div>
     </div>
 </div>
 <div class = "login-menu">
-    <div class = "callout">
-        <div class = "button large" id = "login-menu-exit">
-            X
+    <div class = "">
+        <div class = "toprow">
+            <div class = "button secondary large exit" id = "login-menu-exit">
+                X
+            </div>
         </div>
-        <form>
-            
-        </form>
+        <div class = "middle">
+            <form method = "POST">
+                
+            </form>
+        </div>
     </div>
 </div>
 <body class = "board">
@@ -113,3 +117,6 @@
         </div>
     </div>
 </div>
+<?php 
+        submitPicket();
+?>
