@@ -56,9 +56,11 @@
         <div class = "mainCol">
             <div class = "menubar">
                 <div class = "left">
-                    <button class = "button secondary large " id = "">FAQ</button>
+                <a href="faq.php">
+                    <button class = "button secondary large " id = "">FAQ</button></a>
                     <br />
-                    <button class = "button secondary large " id = "">Rules</button>
+                    <a href="rules.php">
+                    <button class = "button secondary large " id = "">Rules</button></a>
                 </div>
                 <div class = "center">
                     <h2> Leidle </h2>

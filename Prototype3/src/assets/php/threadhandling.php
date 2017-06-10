@@ -12,11 +12,6 @@
         }
     }
 
-    //Serialize Picket
-    function serializePicket($picket){
-
-    }
-
     //Get the most recent thread ID
     function getMostRecentThreadId(){
     $connection = mysqli_connect($GLOBALS["servername"],$GLOBALS['db_getcontent_username'],$GLOBALS['db_getcontent_password']);
@@ -119,7 +114,7 @@
             $timecreated = gmdate("Y-m-d H:i:s", time());
             $timedelete = $timecreated;
             $timedelete->modify('+1 day');
-            $postid = getMostRecentPostId();
+            $postid = getMostRecentPostId()+1;
             $threadpostid = getMostRecentPostIdInThread($threadID)+1;
             try{
                 //ThreadID,subject,timeposted,deletetime
@@ -143,9 +138,107 @@
     //Retrieve the pickets in the database
     function getPickets(){
         $connection = mysqli_connect($GLOBALS["servername"],$GLOBALS['db_getcontent_username'],$GLOBALS['db_getcontent_password']);
-        $getquery = "SELECT * FROM p3_content.posts ORDER BY timeposted DESC WHERE threadpostid LIMIT 50";
+        $getquery = "SELECT * FROM p3_content.posts ORDER BY timeposted DESC LIMIT 50";
         //TODO FINISH
     }
+
+function getPosts($boardid){
+    $con = mysqli_connect($GLOBALS["servername"],$GLOBALS['username'],$GLOBALS['password']);
+
+    $threadquery = "SELECT * FROM prototype2.thread WHERE boardid = '$boardid' ORDER BY timestamp DESC;";
+    $threadresult = mysqli_query($con,$threadquery);
+    
+    if(mysqli_num_rows($threadresult) > 0){
+        while($threadrow = mysqli_fetch_assoc($threadresult)) {
+            $thisThreadID = $threadrow["threadid"];
+            //HTML code for a thread
+            if(isset($_SESSION['login_user'])){
+                echo "
+                    <div class = 'large-12 columns'>
+                        <div class = 'row textcenter'>
+                            <p>
+                                Subject: ".$threadrow["subject"]." &middot; Thread ID: ".$threadrow["threadid"]." &middot; Timestamp: ".$threadrow["timestamp"]."
+                                &middot;
+                                ".'
+                                <a class = "button" href = "'.htmlspecialchars("../reply.php?threadid=".urlencode($threadrow["threadid"])."&boardid=".urlencode($boardid)."").'">
+                                    Reply to thread
+                                </a>
+                                '."
+                            </p>
+                        </div>
+                ";
+            }else{
+                echo "
+                    <div class = 'large-12 columns'>
+                        <div class = 'row textcenter'>
+                            <p>
+                                Subject: ".$threadrow["subject"]." &middot; Thread ID: ".$threadrow["threadid"]." &middot; Timestamp: ".$threadrow["timestamp"]."
+                            </p>
+                        </div>
+                ";
+            }
+            $postquery = "SELECT * FROM prototype2.posts WHERE '$thisThreadID' = threadid ORDER BY timestamp ASC;";
+            $postresult = mysqli_query($con,$postquery);
+            while($postrow = mysqli_fetch_assoc($postresult)){
+                $postsubject = $postrow['subject'];
+                //HTML code for each individual post
+                echo "
+                    <div class = 'large-12 columns row'>
+                        <p class = 'post-header'>
+                            $postsubject
+                        </p>
+                        <p class = 'post-content'>
+                            ".$postrow["content"]."
+                        </p>
+                    <hr />
+                    </div>
+                ";
+            }
+        }
+        if(isset($_SESSION['login_user'])){
+            echo "
+                    </div>
+                    <div class = 'textcenter'>
+                        <h5>
+                            No more threads to load.
+                        </h5>
+                        <h5>"."
+                            <a  class = 'button large' href = ".htmlspecialchars("../newthread.php?boardid=".urlencode($boardid)."").">
+                                Create a new thread!
+                            </a>
+                            "."
+                        </h5>
+                    </div>
+                ";
+        }else{
+            echo "
+                    </div>
+                    <div class = 'textcenter'>
+                        <h5>
+                            No more threads to load.
+                        </h5>
+                    </div>
+                ";
+        }
+    }else{
+        echo "
+        <div class = 'textcenter'>
+            <h5>
+                No threads at all or something went wrong!...ruh roh raggy!
+            </h5>
+            <h5>"."
+                <a href = ".htmlspecialchars("../newthread.php?boardid=".urlencode($boardid)."").">
+                    Create a new thread!
+                </a>
+                "."
+            </h5>
+        </div>
+        ";
+    }
+
+    mysqli_close($con);
+}
+
     //Submit a regular post responding to a comment
     function submitPost(){
         //TODO FINISH

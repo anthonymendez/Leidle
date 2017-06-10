@@ -47,9 +47,9 @@
         <div class = "menucontainer">
             <div class = "menubar callout">
                 <div class = "left">
-                    <a href = "">FAQ</a>
+                    <a href = "faq.php">FAQ</a>
                     <br />
-                    <a href = "">Rules</a>
+                    <a href = "rules.php">Rules</a>
                 </div>
                 <div class = "center">
                     <h2> Leidle </h2>
