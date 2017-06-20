@@ -1,7 +1,7 @@
 <?php
     include 'variables.php';
     session_start();
-
+//Retrieves the most recently created Thread ID
 function getMostRecentThreadId($con){
     $con = mysqli_connect($GLOBALS["servername"],$GLOBALS['username'],$GLOBALS['password']);
     $query = "SELECT MAX(threadid) AS max FROM prototype2.thread;";
@@ -13,7 +13,7 @@ function getMostRecentThreadId($con){
     $largestNumber = $val['max'];
     return $largestNumber;
 }   
-
+//Retrieves the most recently created Post ID
 function getMostRecentPostId($con){
     $con = mysqli_connect($GLOBALS["servername"],$GLOBALS['username'],$GLOBALS['password']);
     $query = "SELECT MAX(postid) AS max FROM prototype2.posts;";
@@ -26,7 +26,7 @@ function getMostRecentPostId($con){
     $largestNumber = $val['max'];
     return $largestNumber;
 }
-
+//Retrieves the most recently create Post in a specific Thread
 function getMostRecentPostIdInThread($con,$threadID){
     $con = mysqli_connect($GLOBALS["servername"],$GLOBALS['username'],$GLOBALS['password']);
     $threadID = mysqli_escape_string($con, $threadID);
@@ -40,6 +40,7 @@ function getMostRecentPostIdInThread($con,$threadID){
     $largestNumber = $val['max'];
     return $largestNumber;
 }
+//Creates a randomly generated User ID
 function createRandomUserID(){
     $characters = "qwertyuiopasdfghjklzxcvbnm1234567890QWERTYUIOPLKJHGFDSAZXCVBNM";
     $randString = "";
@@ -48,6 +49,7 @@ function createRandomUserID(){
     }
     return $randString;
 }
+//Retrieves the Client's IP address
 function get_client_ip(){
     $ipaddress = '';
     if (isset($_SERVER['HTTP_CLIENT_IP']))
@@ -66,6 +68,7 @@ function get_client_ip(){
         $ipaddress = 'UNKNOWN';
     return $ipaddress;
 }
+//Retrieves a random User ID in a thread. If it does not exist, a random User Id will be created.
 function getUserID($clientIP, $threadID){
     $con = mysqli_connect($GLOBALS["servername"],$GLOBALS['username'],$GLOBALS['password']);
     $threadID = mysqli_escape_string($con, $threadID);
@@ -92,7 +95,7 @@ function getUserID($clientIP, $threadID){
         return $fetchUSERID['userid'];
     }
 }
-
+//Gets all the threads and displays the information to the board.php page so the user can see.
 function getThreads($boardid){
     $con = mysqli_connect($GLOBALS["servername"],$GLOBALS['username'],$GLOBALS['password']);
 
@@ -100,10 +103,17 @@ function getThreads($boardid){
     $threadresult = mysqli_query($con,$threadquery);
     
     if(mysqli_num_rows($threadresult) > 0){
+        //Fetches each row in the database
+        //Goes through each Thread created in the database and display the information to the user
         while($threadrow = mysqli_fetch_assoc($threadresult)) {
             $thisThreadID = $threadrow["threadid"];
-            //HTML code for a thread
+            //Checks if the user is logged in and a username is stored in $_SESSION
             if(isset($_SESSION['login_user'])){
+                //HTML Code
+                //.htmlspecialchars function allows you to create HTML links depending on the parameters given.
+                //  So in the code there is normal String chars but with urlencode is a reference to the current $threadid.
+                //  The thread ID is embedded into the url so we click on it, the information is in the url and the form
+                //  in the next page can easily retrieve the board id we're submitting to.
                 echo "
                     <div class = 'large-12 columns'>
                         <div class = 'row textcenter'>
@@ -119,6 +129,7 @@ function getThreads($boardid){
                         </div>
                 ";
             }else{
+                //Here we just print the same thing as above except without the Reply to Thread link
                 echo "
                     <div class = 'large-12 columns'>
                         <div class = 'row textcenter'>
@@ -130,6 +141,8 @@ function getThreads($boardid){
             }
             $postquery = "SELECT * FROM prototype2.posts WHERE '$thisThreadID' = threadid ORDER BY timestamp ASC;";
             $postresult = mysqli_query($con,$postquery);
+            //Here we display all the posts within the threads. We do another SQL Query into the database and
+            //retrieve all the posts that are within the ThreadID
             while($postrow = mysqli_fetch_assoc($postresult)){
                 $postsubject = $postrow['subject'];
                 //HTML code for each individual post
@@ -146,7 +159,11 @@ function getThreads($boardid){
                 ";
             }
         }
+        //If the user is logged in, we give them the option to create a new thread.
+        //If not, we just display that there are no more threads to load.
         if(isset($_SESSION['login_user'])){
+            //Much like above, we create a link based on the current borad. So we retrieve $boardid and implant it into the url.
+            //So when we go to create a new thread, we create the thread specifically for this board we are on.
             echo "
                     </div>
                     <div class = 'textcenter'>
@@ -172,6 +189,7 @@ function getThreads($boardid){
                 ";
         }
     }else{
+        //In case we have 0 threads to load.
         echo "
         <div class = 'textcenter'>
             <h5>
@@ -199,6 +217,7 @@ function SubmitThread($boardid){
 
     if(isset($_POST['submitThread'])){
     try{
+        //Create variables and set them to information from forms or functions above. $_POST allows us to retrieve info from HTMLforms
         $threadSubject = mysqli_escape_string($con, $_POST['subject']);
         $postContent = mysqli_escape_string($con, $_POST['content']);
         $threadID = getMostRecentThreadId($con)+1;
@@ -209,19 +228,25 @@ function SubmitThread($boardid){
     }catch(Exception $e){
         echo "<br /> Please Enter your thread information!";
     }
+        //Check to make sure post content isn't empty and Client isn't using some weird ass IP address.
     if(strlen($postContent) !== 0 && $clientIP !== "UNKNOWN"){
         try{
+            //Create a random user ID for our submitter
             $threadCreatorUserID = createRandomUserID();
+            Formatting out Post Subject
             $postsubject = "User ID: $threadCreatorUserID &middot; Thread Post ID: $threadpostID &middot; $time";
             if($_POST['showuser']){
                 $postsubject = "Username: ".$_SESSION['login_user']." &middot; ".$postsubject;
             }
+            //Prepare and execute SQL statement into thread table
             $sqli = mysqli_prepare($con, "INSERT INTO prototype2.thread VALUES (?,?,?,?);");
             mysqli_stmt_bind_param($sqli,'isis',$threadID,$threadSubject,$boardid,$time);
             mysqli_stmt_execute($sqli);
+            //Prepare and execute SQL statement into posts table
             $sqli = mysqli_prepare($con, "INSERT INTO prototype2.posts VALUES (?,?,?,?,?,?,?,?,?);");
             mysqli_stmt_bind_param($sqli,'iiisssiss',$threadID,$postID,$threadpostID,$postContent,$threadCreatorUserID,$time,$boardid,$_SESSION['login_user'],$postsubject);
             mysqli_stmt_execute($sqli);
+            //Prepare and execute SQL statement into useridthreads table
             $sqli = mysqli_prepare($con, "INSERT INTO prototype2.useridthreads VALUES (?,?,?,?);");
             mysqli_stmt_bind_param($sqli,'siss',$clientIP,$threadID,$threadCreatorUserID,$_SESSION['login_user']);
             mysqli_stmt_execute($sqli);
@@ -230,12 +255,14 @@ function SubmitThread($boardid){
         }
         mysqli_close($con);
     }
+    //Unset variables just in case
     unset($threadSubject,$postContent,$threadID,$postthreadid,$postID,$time);
+    //Refresh the page back to the board
     header("Location:".htmlspecialchars("boards/board".urlencode($boardid).".php"));
     }
     exit;
 }
-
+//Refer to submit thread comments
 function SubmitPost($boardid,$threadid){
     $con = mysqli_connect($GLOBALS["servername"],$GLOBALS['username'],$GLOBALS['password']);
 
