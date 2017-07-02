@@ -27,8 +27,12 @@
             </div>
         </div>
         <div class = "middle">
+            <h3>Log-in!</h3>
+            <h5>Enter your Log-in information!</h5>
             <form method = "POST">
-                
+                <label for = "Susername">Username</label><input type = "text" name = "Susername" />
+                <label for = "Spassword">Password</label><input type = "password" name = "Spassword" />
+                <input type = "submit" name = "Ssubmit" value = "Sign up" class = "button large Ssubmit" />
             </form>
         </div>
     </div>
@@ -48,7 +52,7 @@
                 <button class = "button secondary large " id = "">Rules</button></a>
             </div>
             <div class = "center">
-                <h2> Leidle </h2>
+                <h2> <a href = "homepage.php"> Leidle </a> </h2>
                 <h3> The greatest website in the world!</h3>
             </div>
             <div class = "right">

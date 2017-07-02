@@ -48,7 +48,7 @@
                 <button class = "button secondary large " id = "">Rules</button></a>
             </div>
             <div class = "center">
-                <h2> Leidle </h2>
+                <h2> <a href = "homepage.php"> Leidle </a> </h2>
                 <h3> The greatest website in the world!</h3>
             </div>
             <div class = "right">

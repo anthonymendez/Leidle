@@ -52,7 +52,7 @@
                     <a href = "rules.php">Rules</a>
                 </div>
                 <div class = "center">
-                    <h2> Leidle </h2>
+                    <h2> <a href = "homepage.php"> Leidle </a> </h2>
                 </div>
                 <div class = "right">
                     <button class = "button secondary large " id = "signup-menu">Sign Up</button>
